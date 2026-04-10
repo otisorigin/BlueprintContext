@@ -189,10 +189,6 @@ ProjectRoot/
     └── Source/BlueprintMCP/      C++ source
 ```
 
-## License
-
-TBD — add your preferred license before publishing.
-
 ## Contributing
 
 Issues and PRs welcome. If you add a new tool, please keep the token-budget philosophy: paginate by default, prefer compact keys, and document the expected cost per call.
