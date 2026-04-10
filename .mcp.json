@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "blueprint-mcp": {
+      "command": "python",
+      "args": ["mcp_proxy.py"]
+    }
+  }
+}

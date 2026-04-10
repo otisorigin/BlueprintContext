@@ -1,0 +1,30 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Blueprint MCP",
+	"Description": "Exposes Blueprint class metadata to LLM tools via MCP over HTTP",
+	"Category": "Editor",
+	"CreatedBy": "",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": true,
+	"Installed": false,
+	"Plugins": [
+		{
+			"Name": "SQLiteCore",
+			"Enabled": true
+		}
+	],
+	"Modules": [
+		{
+			"Name": "BlueprintMCP",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}

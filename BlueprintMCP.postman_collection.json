@@ -1,0 +1,430 @@
+{
+  "info": {
+    "name": "Blueprint MCP",
+    "description": "All MCP tools for the BlueprintMCP UE5 plugin.\n\nSet the `token` collection variable to the contents of Saved/BlueprintMCP/token.txt before use.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8765",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "PASTE_TOKEN_HERE",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Discovery",
+      "item": [
+        {
+          "name": "tools — list all available tools",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/tools",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Architecture",
+      "item": [
+        {
+          "name": "bp_architecture — summary counts",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_architecture",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" }
+          }
+        },
+        {
+          "name": "bp_architecture — families (paginated)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_architecture",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"group\": \"families\",\n  \"limit\": 10,\n  \"offset\": 0\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_architecture — interfaces",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_architecture",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"group\": \"interfaces\"\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_architecture — folders",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_architecture",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"group\": \"folders\"\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_hierarchy — inheritance tree",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_hierarchy",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\"\n}"
+            }
+          }
+        },
+        {
+          "name": "asset_related — outgoing references",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/asset_related",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\",\n  \"rel\": \"REFERENCES\",\n  \"direction\": \"out\",\n  \"limit\": 20\n}"
+            }
+          }
+        },
+        {
+          "name": "asset_related — incoming inheritors (recursive)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/asset_related",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\",\n  \"rel\": \"INHERITS\",\n  \"direction\": \"in\",\n  \"recursive\": true,\n  \"limit\": 50\n}"
+            }
+          }
+        },
+        {
+          "name": "asset_related — paginated (page 2)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/asset_related",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\",\n  \"rel\": \"all\",\n  \"direction\": \"both\",\n  \"limit\": 20,\n  \"offset\": 20\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_refs — children / interface implementors",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_refs",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\",\n  \"ref_type\": \"child\",\n  \"recursive\": false,\n  \"limit\": 50\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "bp_search — semantic search",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_search",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"weapon damage\",\n  \"top_k\": 10\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_list — filtered list",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_list",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parent\": \"Actor\"\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_list — paginated with fields",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_list",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parent\": \"Actor\",\n  \"limit\": 10,\n  \"offset\": 0,\n  \"fields\": [\"name\", \"path\", \"parent\"]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Blueprint Details",
+      "item": [
+        {
+          "name": "bp_vars — own variables (NewVariables only)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_vars",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\"\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_vars — paginated",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_vars",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\",\n  \"limit\": 10,\n  \"offset\": 0\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_parent_vars — inherited properties with override flags",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_parent_vars",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\"\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_parent_vars — only overridden values",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_parent_vars",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\",\n  \"only_overridden\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_parent_vars — paginated with category filter",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_parent_vars",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\",\n  \"limit\": 10,\n  \"offset\": 0,\n  \"category\": \"Combat\"\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_funcs — functions",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_funcs",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\"\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_funcs — paginated",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_funcs",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\",\n  \"limit\": 10,\n  \"offset\": 0\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_header — full C++ header",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_header",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\"\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_components — component list with classes",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_components",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\"\n}"
+            }
+          }
+        },
+        {
+          "name": "bp_components — paginated",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/bp_components",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/BP_ShooterWeaponBase.BP_ShooterWeaponBase\",\n  \"limit\": 10,\n  \"offset\": 0\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "DataTable",
+      "item": [
+        {
+          "name": "dt_list — list all DataTables",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/dt_list",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" }
+          }
+        },
+        {
+          "name": "dt_list — paginated",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/dt_list",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"limit\": 10,\n  \"offset\": 0\n}"
+            }
+          }
+        },
+        {
+          "name": "dt_list — filter by row struct",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/dt_list",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"row_struct\": \"WeaponTableRow\"\n}"
+            }
+          }
+        },
+        {
+          "name": "dt_schema — column names and types",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/dt_schema",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/Pickups/DT_WeaponData.DT_WeaponData\"\n}"
+            }
+          }
+        },
+        {
+          "name": "dt_rows — first 20 rows",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/dt_rows",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/Pickups/DT_WeaponData.DT_WeaponData\"\n}"
+            }
+          }
+        },
+        {
+          "name": "dt_rows — specific rows and columns",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/dt_rows",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Variant_Shooter/Blueprints/Pickups/DT_WeaponData.DT_WeaponData\",\n  \"rows\": [\"Rifle\", \"Pistol\"],\n  \"columns\": [\"Damage\", \"FireRate\"]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "DataAsset & Generic",
+      "item": [
+        {
+          "name": "da_values — DataAsset fields",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/da_values",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/REPLACE_WITH_DATAASSET_PATH\"\n}"
+            }
+          }
+        },
+        {
+          "name": "asset_properties — InputMappingContext",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/asset_properties",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Input/IMC_Default.IMC_Default\"\n}"
+            }
+          }
+        },
+        {
+          "name": "asset_properties — InputAction",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mcp/asset_properties",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/Game/Input/Actions/IA_Move.IA_Move\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
